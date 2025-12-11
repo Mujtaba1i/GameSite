@@ -45,7 +45,7 @@ router.post('/', async(req,res)=>{
 // UPDATE (PUT) ===================================================================================
 
 router.put('/:id', async(req,res)=>{
-       try {
+    try {
         req.body.owner = req.session.user._id
         const updatedGame = await Games.findByIdAndUpdate(req.params.id, req.body)
         res.redirect('/profile')        
@@ -55,6 +55,17 @@ router.put('/:id', async(req,res)=>{
     } 
 })
 
+// DELETE ========================================================================================
+
+router.delete('/:id', async(req,res)=>{
+    try {
+        await Games.findByIdAndDelete(req.params.id)
+        res.redirect('/profile')        
+    } catch (err) {
+        console.error('Ran into and error: '+err)
+        res.redirect('/profile')
+    }
+})
 
 // exports ========================================================================================
 

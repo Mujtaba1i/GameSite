@@ -16,6 +16,7 @@
         <p>you've played <%= game.completion %>%  of the game</p>
         <p>Game price: <%= game.price %>, release date: <%= game.releaseDate %>, genra: <%= game.genra %></p>
         <a href="/profile/<%= game._id %>/edit">EDIT</a>
+        <form action="/profile/<%= game._id %>?_method=DELETE" method="POST"><button>DELETE</button></form>
 </body>
 
 </html>
