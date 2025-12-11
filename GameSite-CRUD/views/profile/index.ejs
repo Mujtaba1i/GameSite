@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Games Website</h1>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1>Welcome <%= user.username %>!</h1>
+    <a href="/profile/new">Add a new game to your profile</a>
 </body>
 </html>

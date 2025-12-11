@@ -44,7 +44,7 @@ router.post('/sign-up', async(req,res)=>{
     // console.log(req.body)
     req.body.password = hashedPassword
     delete req.body.confirmPassword
-
+    
     // if the above matches, create account with the encrypted password
     const user = await User.create(req.body);
     

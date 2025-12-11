@@ -26,6 +26,10 @@ const gamesSchema = new mongoose.Schema({
     type: Number,
     min:0,
     max:100
+  },
+  owner:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }
 },
 {
