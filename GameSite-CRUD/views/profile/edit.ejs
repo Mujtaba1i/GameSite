@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+        <h1>Edit the game Data</h1>
+        <form action="/profile/<%= game._id %>?_method=PUT" method="POST">
+            <label for="name">Game name:</label>
+            <input type="text" name="name" id="name" required value="<%= game.name %>"/><br><br>
+
+            <label for="genra">Game genra:</label>
+            <input type="text" name="genra" id="genra" value="<%= game.genra %>"/><br><br>
+
+            <label for="image">Cover Imgae:</label>
+            <input type="text" name="image" id="image" value="<%= game.image%>"/><br><br>
+
+            <label for="releaseDate">Release Date:</label>
+            <input type="date" name="releaseDate" id="releaseDate" value="<%= game.releaseDate %>"/><br><br>
+
+            <label for="price">Game price:</label>
+            <input type="number" name="price" id="price" min="0" value="<%= game.price %>"/><br><br>
+
+            <label for="completion">Game completion:</label>
+            <input type="number" name="completion" id="completion" min="0" max="100" value="<%= game.completion %>"/><br><br>
+
+            <button type="submit">Edit the game details</button>
+        </form>
+
+</body>
+
+</html>

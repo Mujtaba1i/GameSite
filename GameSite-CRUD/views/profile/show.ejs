@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+        <h1><%= game.name %></h1>
+        <% if (game.image !=="" ){%>
+            <img src="<%= game.image %>">
+        <%} %>
+        <p>you've played <%= game.completion %>%  of the game</p>
+        <p>Game price: <%= game.price %>, release date: <%= game.releaseDate %>, genra: <%= game.genra %></p>
+        <a href="/profile/<%= game._id %>/edit">EDIT</a>
+</body>
+
+</html>

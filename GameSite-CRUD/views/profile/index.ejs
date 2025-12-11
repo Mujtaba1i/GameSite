@@ -8,6 +8,14 @@
 <body>
     <%- include('../partials/_navbar.ejs') %>
     <h1>Welcome <%= user.username %>!</h1>
-    <a href="/profile/new">Add a new game to your profile</a>
+    <a href="/profile/new">Add a new game to your profile</a><br><br>
+    <% games.forEach(game => {%>
+        <li>
+            <% if (game.image !== ""){%>
+                <img src="<%= game.image %>">
+            <%} %>
+            <a href="/profile/<%= game._id %>"><%= game.name %></a>
+        </li>
+    <%}); %>
 </body>
 </html>
