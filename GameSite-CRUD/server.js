@@ -19,6 +19,8 @@ require('./config/database.js');
 // controller(s) =====================================================================================
 
 const authCtrl = require("./controllers/auth")
+const gamesCtrl = require('./controllers/games')
+const gamersCtrl = require('./controllers/gamers')
 
 // cookies ===========================================================================================
 
@@ -53,6 +55,9 @@ app.use(passUserToView)
 
 // homepage
 app.get("/", async (req, res) => {
+    if (req.session.user){
+        return res.redirect('/games')
+    }
     res.render('index.ejs')
 })
 
@@ -63,12 +68,8 @@ app.use('/auth' , authCtrl)
 // Protected Routes ==================================================================================
 app.use(isSignedIn)
 
-
-
-
-
-
-
+app.use('/games', gamesCtrl)
+app.use('/gamers', gamersCtrl)
 
 
 

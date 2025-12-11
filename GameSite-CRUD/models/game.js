@@ -4,27 +4,38 @@ const mongoose = require("mongoose");
 
 // Schema =======================================================================================
 
-const userSchema = new mongoose.Schema({
-  username: {
+const gamesSchema = new mongoose.Schema({
+  name:{
     type: String,
-    required: true,
+    required: true
   },
-  password: {
-    type: String,
-    required: true,
+  genra:{
+    type: String
   },
-  accountState: {
-    type: String,
-    required: true,
-    enum: ["Public", "Private"],
-    default: "Public"
+  image:{
+    type: String
+  },
+  releaseDate:{
+    type: Date
+  },
+  price:{
+    type: Number,
+    min:0
+  },
+  completion:{
+    type: Number,
+    min:0,
+    max:100
   }
+},
+{
+  timestamps: true
 })
 
 // model creation =================================================================================
 
-const User = mongoose.model("User", userSchema);
+const Game = mongoose.model("Game", gamesSchema);
 
 // exports ========================================================================================
 
-module.exports = User
+module.exports = Game
