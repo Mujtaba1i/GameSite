@@ -1,0 +1,7 @@
+Project idea: 
+A website that shows the user (AND OTHER USERS) the game they played and the percenatge of completion and the catagory of the game and some info about the game (IF POSSIBLE THROUGH API) and thh websites shows the Images and the data of the games for each player
+
+the website shows the users that make thier profile (PUBLIC) if the account is (PIRVATE) only the owner can see his account 
+
+IT WOULD BE A REFRENCE DOC.
+IT WOULD BE 1:M
