@@ -1,18 +1,21 @@
 // imports =======================================================================================
 
 const express = require('express')
+const bcrypt = require("bcrypt")
 const router = express.Router()
 const Games = require('../models/game')
 const Users = require('../models/user')
 const getGameCover = require("../services/game-images-service.js")
 
-// GET ============================================================================================
+// function(s) ====================================================================================
 
 async function getCover(gameName) {
     const gameImageUrl = await getGameCover(gameName)
     console.log('Cover Image URL: '+ gameImageUrl)
     return gameImageUrl
 }
+
+// GET ============================================================================================
 
 router.get('/', async(req,res)=>{
     // find all the games that the logged in user "OWNE"
@@ -22,6 +25,16 @@ router.get('/', async(req,res)=>{
 
 router.get('/new', async(req,res)=>{
     res.render('profile/new.ejs')
+})
+
+router.get('/settings', async(req,res)=>{
+    try {
+        const user = await Users.findById(req.session.user._id)
+        res.render('profile/settings.ejs', { user })
+    } catch (err) {
+        console.error('Ran into and error: '+err)
+        res.redirect('/profile')
+    }
 })
 
 router.get('/:id', async(req,res)=>{
@@ -59,6 +72,26 @@ router.post('/', async(req,res)=>{
 })
 
 // UPDATE (PUT) ===================================================================================
+
+router.put('/settings', async(req,res)=>{
+    try{
+        const user = await Users.findById(req.session.user._id)
+        if (bcrypt.compareSync(req.body.password, user.password)){
+            delete req.body.password
+            const updatedUser = await Users.findByIdAndUpdate(req.session.user._id, req.body, {new: true})
+            req.session.user = {
+                username: updatedUser.username,
+                _id: updatedUser._id
+            }
+            res.redirect('/profile')
+        }
+        else res.send('Password is incorrect')
+    }
+    catch(err){
+        console.error('Ran into and error: '+err)
+        res.redirect('/profile')
+    }
+})
 
 router.put('/:id', async(req,res)=>{
     try {
