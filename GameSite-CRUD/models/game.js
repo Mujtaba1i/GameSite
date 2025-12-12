@@ -9,13 +9,10 @@ const gamesSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  genra:{
-    type: String
-  },
   image:{
     type: String
   },
-  releaseDate:{
+  playDate:{
     type: Date
   },
   price:{
@@ -30,6 +27,12 @@ const gamesSchema = new mongoose.Schema({
   owner:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
+  },
+  gameState: {
+    type: String,
+    required: true,
+    enum: ["Public", "Private"],
+    default: "Public"
   }
 },
 {

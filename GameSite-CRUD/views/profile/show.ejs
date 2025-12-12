@@ -14,7 +14,8 @@
             <img src="<%= game.image %>">
         <%} %>
         <p>you've played <%= game.completion %>%  of the game</p>
-        <p>Game price: <%= game.price %>, release date: <%= game.releaseDate %>, genra: <%= game.genra %></p>
+        <p>Game price: <%= game.price %>, play date: <%= game.playDate %></p>
+        <p>The Game State of <%= game.name %> is <%= game.gameState %></p>
         <a href="/profile/<%= game._id %>/edit">EDIT</a>
         <form action="/profile/<%= game._id %>?_method=DELETE" method="POST"><button>DELETE</button></form>
 </body>

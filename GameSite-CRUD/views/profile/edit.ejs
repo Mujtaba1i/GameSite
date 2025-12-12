@@ -14,20 +14,21 @@
             <label for="name">Game name:</label>
             <input type="text" name="name" id="name" required value="<%= game.name %>"/><br><br>
 
-            <label for="genra">Game genra:</label>
-            <input type="text" name="genra" id="genra" value="<%= game.genra %>"/><br><br>
-
-            <label for="image">Cover Imgae:</label>
-            <input type="text" name="image" id="image" value="<%= game.image%>"/><br><br>
-
-            <label for="releaseDate">Release Date:</label>
-            <input type="date" name="releaseDate" id="releaseDate" value="<%= game.releaseDate %>"/><br><br>
+            <label for="playDate">play Date:</label>
+            <input type="date" name="playDate" id="playDate" value="<%= game.playDate %>"/><br><br>
 
             <label for="price">Game price:</label>
             <input type="number" name="price" id="price" min="0" value="<%= game.price %>"/><br><br>
 
             <label for="completion">Game completion:</label>
             <input type="number" name="completion" id="completion" min="0" max="100" value="<%= game.completion %>"/><br><br>
+
+            <label for="gameState">Game State:</label>
+            <select name="gameState" id="gameState">
+                <option value="Public"  <%= game.gameState === "Public" ? "selected" : ""%>  >Public</option>
+                <option value="Private" <%= game.gameState === "Private" ? "selected" : ""%> >Private</option>
+            </select>
+            <br><br>
 
             <button type="submit">Edit the game details</button>
         </form>
