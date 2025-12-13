@@ -20,7 +20,8 @@ async function getCover(gameName) {
 router.get('/', async(req,res)=>{
     // find all the games that the logged in user "OWNE"
     const games = await Games.find({owner: req.session.user._id}).populate('owner')
-    res.render('profile/index.ejs', { games })
+    const user = await Users.findById(req.session.user._id)
+    res.render('profile/index.ejs', { games, user })
 })
 
 router.get('/new', async(req,res)=>{

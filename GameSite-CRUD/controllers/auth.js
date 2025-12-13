@@ -45,9 +45,17 @@ router.post('/sign-up', async(req,res)=>{
     req.body.password = hashedPassword
     delete req.body.confirmPassword
     
+    
     // if the above matches, create account with the encrypted password
     const user = await User.create(req.body);
-    
+
+    // create a random BOT styled avatar that is unique to each user based on the _id mangoDB randomly assigned  
+    // using API-free website dicebear
+    // setting the background to gray
+    const userId = user._id
+    user.image = `https://api.dicebear.com/7.x/bottts/svg?seed=${userId}&size=256&backgroundColor=6b7280`
+    await user.save()
+
     // sign the user in
     req.session.user = {
         username: user.username,

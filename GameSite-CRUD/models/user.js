@@ -13,12 +13,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String
+  },
   accountState: {
     type: String,
     required: true,
     enum: ["Public", "Private"],
     default: "Public"
   }
+},
+{
+  timestamps: true
 })
 
 // model creation =================================================================================
