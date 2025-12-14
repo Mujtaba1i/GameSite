@@ -2,8 +2,12 @@
 
 const express = require('express')
 const bcrypt = require("bcrypt")
+const validator = require('validator')
+const { OAuth2Client } = require('google-auth-library')
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const router = express.Router()
 const User = require('../models/user')
+app.use(express.json())
 
 // GET ============================================================================================
 
@@ -39,6 +43,12 @@ router.post('/sign-up', async(req,res)=>{
         return res.send('Username or password is invalid')
     }
 
+    // use the validator to check if the password if strong or not
+    if (!validator.isStrongPassword(password, { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 0 })){
+        console.log(password)
+        return res.send('Password is not strong enough')
+    }
+
     // encrypt the password 
     const hashedPassword = bcrypt.hashSync(password, 10)
     // console.log(req.body)
@@ -67,8 +77,6 @@ router.post('/sign-up', async(req,res)=>{
         res.redirect('/')
     })
 })
-
-// ============================================
 
 router.post('/sign-in', async(req,res)=>{
     const {username, password} = req.body

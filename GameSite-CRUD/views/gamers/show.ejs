@@ -15,11 +15,11 @@
     <div class="card-container">
         <% games.forEach(game => {%>
             <div class="card">
-                <h1><%= game.name %></h1>
+                <h1 style="color: red;"><%= game.name %></h1>
                 <% if (game.image !=="" ){%>
-                    <img src="<%= game.image %>" width="500">
+                    <img src="<%= game.image %>" height="400" style="border-radius: 20px;">
                 <%} %>
-                <p>you've played <%= game.completion ? game.completion : 'N/A'%>% of the game</p>
+                <p style="bottom: 52px;">you've played <%= game.completion ? game.completion : 'N/A'%>% of the game</p>
                 <p>Game price: <%= game.price ? game.price : 'N/A' %>, play date: <%= game.playDate ? game.playDate : 'N/A'%></p>
             </div>
         <%}); %>
