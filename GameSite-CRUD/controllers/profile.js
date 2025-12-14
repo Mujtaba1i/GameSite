@@ -31,7 +31,7 @@ router.get('/new', async(req,res)=>{
 router.get('/settings', async(req,res)=>{
     try {
         const user = await Users.findById(req.session.user._id)
-        res.render('profile/settings.ejs', { user })
+        res.render('profile/settings.ejs', { user, isSignedWithGoogle: req.session.user.isSignedWithGoogle})
     } catch (err) {
         console.error('Ran into and error: '+err)
         res.redirect('/profile')
@@ -77,16 +77,30 @@ router.post('/', async(req,res)=>{
 router.put('/settings', async(req,res)=>{
     try{
         const user = await Users.findById(req.session.user._id)
-        if (bcrypt.compareSync(req.body.password, user.password)){
-            delete req.body.password
-            const updatedUser = await Users.findByIdAndUpdate(req.session.user._id, req.body, {new: true})
-            req.session.user = {
-                username: updatedUser.username,
-                _id: updatedUser._id
+        const isSignedWithGoogle = req.session.user.isSignedWithGoogle
+        if (!isSignedWithGoogle){
+            if (bcrypt.compareSync(req.body.password, user.password)){
+                delete req.body.password
+                const updatedUser = await Users.findByIdAndUpdate(req.session.user._id, req.body, {new: true})
+                req.session.user = {
+                    username: updatedUser.username,
+                    _id: updatedUser._id,
+                    isSignedWithGoogle: updatedUser.isSignedWithGoogle
+                }
+                res.redirect('/profile')
             }
-            res.redirect('/profile')
-        }
-        else res.send('Password is incorrect')
+            else res.send('Password is incorrect')
+    }
+    else{
+        const updatedUser = await Users.findByIdAndUpdate(req.session.user._id, req.body, {new: true})
+        req.session.user = {
+        username: updatedUser.username,
+        _id: updatedUser._id,
+        isSignedWithGoogle: updatedUser.isSignedWithGoogle
+        } 
+        res.redirect('/profile')
+    }
+
     }
     catch(err){
         console.error('Ran into and error: '+err)

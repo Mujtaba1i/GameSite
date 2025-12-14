@@ -71,7 +71,8 @@ router.get('/google/callback', async (req, res) => {
     // Create session
     req.session.user = {
         username: user.username,
-        _id: user._id
+        _id: user._id,
+        isSignedWithGoogle: true
     }
 
     // Save session and redirect

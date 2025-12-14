@@ -15,9 +15,11 @@
         <input type="text" name="username" id="username" value="<%= user.username %>"/>
         <br><br>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" />
-        <br><br>
+        <% if (!isSignedWithGoogle){%>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" />
+            <br><br>
+        <%} %>
 
         <label for="accountState">Account State:</label>
         <select name="accountState" id="accountState">
