@@ -21,7 +21,7 @@ router.get('/', async(req,res)=>{
                 const userCopy = {
                     _id: user._id,
                     username: user.username,
-                    accountState: user.accountState
+                    accountState: user.accountState,
                 }
                 userAccountsToDisplay.push(userCopy)
             } 
@@ -40,8 +40,7 @@ router.get('/', async(req,res)=>{
                 }
             }
         }
-        console.log(userAccountsToDisplay)
-        res.render('gamers/index.ejs', { users: userAccountsToDisplay })
+        res.render('gamers/index.ejs', { users: userAccountsToDisplay})
     }
     catch(err){
         console.error('Ran into and error: '+err)

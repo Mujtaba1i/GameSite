@@ -1,0 +1,112 @@
+<nav class="navbar">
+    <div class="hamburger" id="hamburger">
+        <% if (user && user.image) { %>
+            <img src="<%= user.image %>" width="40" height="40" alt="Menu">
+            <% } else { %>
+                <span></span>
+                <span></span>
+                <span></span>
+                <% } %>
+    </div>
+
+    <div class="menu" id="menu">
+        <% if (user) { %>
+            <a href="/profile" class="profile-link">
+                <% if (user.image) { %>
+                    <img src="<%= user.image %>" width="50" height="50" alt="Profile">
+                    <% } %>
+                        <span>Profile</span>
+            </a>
+            <a href="/gamers">Browse Gamers Profiles</a>
+            <a href="/profile/settings">Profile Settings</a>
+            <a href="/auth/sign-out">Sign Out</a>
+            <% } else { %>
+                <a href="/auth/sign-in">Sign In</a>
+                <a href="/auth/sign-up">Sign Up</a>
+                <% } %>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        position: relative;
+    }
+
+    .hamburger {
+        display: inline-flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        position: relative;
+        z-index: 1001;
+    }
+
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 3px 0;
+        transition: 0.3s;
+    }
+
+    .hamburger img {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .menu {
+        display: none;
+        flex-direction: column;
+        background-color: rgba(50, 50, 50, 0.98);
+        padding: 60px 20px 20px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        z-index: 1000;
+    }
+
+    .menu.active {
+        display: flex;
+    }
+
+    .menu a {
+        padding: 15px 10px;
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .menu a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .profile-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-link img {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (menu.classList.contains('active') && !menu.contains(e.target)) {
+            menu.classList.remove('active');
+        }
+    });
+</script>

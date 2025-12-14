@@ -6,14 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <%- include('../partials/_navbar.ejs') %>
+    <!-- <%- include('../partials/_navbar.ejs') %>-->
+    <%- include('../partials/_hamburger.ejs') %> 
     <h1>Welcome <%= user.username %>!</h1>
-    <img src=<%= user.image %>> <br><br>
     <a href="/profile/new">Add a new game to your profile</a><br><br>
     <% games.forEach(game => {%>
         <li>
             <% if (game.image !== ""){%>
-                <img src="<%= game.image %>">
+                <img src="<%= game.image %>" width="500" ><br>
             <%} %>
             <a href="/profile/<%= game._id %>"><%= game.name %></a>
         </li>
