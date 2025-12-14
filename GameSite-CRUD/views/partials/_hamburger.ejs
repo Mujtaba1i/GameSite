@@ -1,12 +1,12 @@
 <nav class="navbar">
     <div class="hamburger" id="hamburger">
-        <% if (user && user.image) { %>
-            <img src="<%= user.image %>" width="40" height="40" alt="Menu">
-            <% } else { %>
-                <span></span>
-                <span></span>
-                <span></span>
-                <% } %>
+    <% if (user && user.image) { %>
+        <img src="<%= user.image %>" width="40" height="40" alt="Menu">
+    <% } else { %>
+        <span></span>
+        <span></span>
+        <span></span>
+    <% } %>
     </div>
 
     <div class="menu" id="menu">
@@ -14,8 +14,8 @@
             <a href="/profile" class="profile-link">
                 <% if (user.image) { %>
                     <img src="<%= user.image %>" width="50" height="50" alt="Profile">
-                    <% } %>
-                        <span>Profile</span>
+                <% } %>
+            <span>Profile</span>
             </a>
             <a href="/gamers">Browse Gamers Profiles</a>
             <a href="/profile/settings">Profile Settings</a>
@@ -23,7 +23,7 @@
             <% } else { %>
                 <a href="/auth/sign-in">Sign In</a>
                 <a href="/auth/sign-up">Sign Up</a>
-                <% } %>
+            <% } %>
     </div>
 </nav>
 

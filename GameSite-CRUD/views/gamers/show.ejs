@@ -8,16 +8,16 @@
 </head>
 
 <body>
-    <!-- <%- include('../partials/_navbar.ejs') %> -->
+    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %>
     <h3><%= user.username %> has spent <%= totalMoneySpent %> BHD an all these games</h3>
     <% games.forEach(game => {%>
         <h1><%= game.name %></h1>
         <% if (game.image !=="" ){%>
-            <img src="<%= game.image %>">
+            <img src="<%= game.image %>" width="500">
         <%} %>
         <p>you've played <%= game.completion %>% of the game</p>
-        <p>Game price: <%= game.price %>, play date: <%= game.playDate %></p>
+        <p>Game price: <%= game.price ? game.price : 'N/A' %>, play date: <%= game.playDate ? game.playDate : 'N/A'%></p>
     <%}); %>
 </body>
 
