@@ -4,10 +4,90 @@ const express = require('express')
 const bcrypt = require("bcrypt")
 const validator = require('validator')
 const { OAuth2Client } = require('google-auth-library')
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const router = express.Router()
 const User = require('../models/user')
-app.use(express.json())
+router.use(express.json())
+
+// Oauth =============================================================================================
+
+const client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URI
+)
+
+router.get('/google', (req, res) => {
+  const authorizeUrl = client.generateAuthUrl({
+    access_type: 'offline',
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid'],
+  });
+  res.redirect(authorizeUrl);
+})
+
+router.get('/google/callback', async (req, res) => {
+  const code = req.query.code
+
+  if (!code) {
+    // if the query failed
+    return res.status(400).send('Authorization code missing.');
+  }
+
+  try {
+    const { tokens } = await client.getToken(code)
+
+    const ticket = await client.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    })
+
+    const payload = ticket.getPayload()
+    const googleId = payload.sub
+    const userName = payload.name
+    
+    // check if there is a user with the same id
+    let user = await User.findOne({ googleId: googleId })
+
+    // if not
+    if (!user) {
+      const randomPassword = require('crypto').randomBytes(32).toString('hex');
+      const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+    // create a new user    
+    user = new User({
+        username: userName,
+        password: hashedPassword,
+        googleId: googleId,
+        accountState: 'Public'
+      })
+    // save it   
+      await user.save();
+
+      // generate image with dicebear
+      user.image = `https://api.dicebear.com/7.x/bottts/svg?seed=${user._id}&size=256&backgroundColor=6b7280`;
+      await user.save();
+    }
+
+    // Create session
+    req.session.user = {
+        username: user.username,
+        _id: user._id
+    }
+
+    // Save session and redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Ran into and error: '+err)
+        res.redirect('/') 
+      }
+      res.redirect('/')
+    })
+
+  } catch (err) {
+        console.error('Ran into and error: '+err)
+        res.redirect('/') 
+  }
+})
 
 // GET ============================================================================================
 

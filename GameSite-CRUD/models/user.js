@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     enum: ["Public", "Private"],
     default: "Public"
+  },
+  googleId: { 
+    type: String, 
+    unique: true, 
+    sparse: true 
   }
 },
 {
