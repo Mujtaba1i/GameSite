@@ -92,14 +92,6 @@ router.get('/google/callback', async (req, res) => {
 
 // GET ============================================================================================
 
-router.get('/sign-up', async (req, res) =>{
-    res.render('auth/sign-up.ejs')
-})
-
-router.get('/sign-in', async (req, res) =>{
-    res.render('auth/sign-in.ejs')
-})
-
 router.get('/sign-out', async (req,res)=>{
     req.session.destroy(()=> {
         res.redirect('/')
