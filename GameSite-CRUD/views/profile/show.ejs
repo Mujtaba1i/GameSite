@@ -27,7 +27,7 @@
                 <div class="detail-label">Completion Progress</div>
                 <div class="completion-bar-container">
                     <div class="completion-bar">
-                        <div class="completion-fill" style="width: <%= game.completion %>%">
+                        <div class="completion-fill" style="width: <%= game.completion ? game.completion : 0 %>%">
                             <%= game.completion %>%
                         </div>
                     </div>

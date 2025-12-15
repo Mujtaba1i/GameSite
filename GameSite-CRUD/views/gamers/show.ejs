@@ -4,25 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <title><%= user.username %></title>
+    <link rel="stylesheet" href="/stylesheets/gameshowstyle.css">
+    <title><%= user.username %>'s Profile</title>
 </head>
 
 <body>
-    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %>
-    <h3><%= user.username %> has spent <%= totalMoneySpent %> BHD an all these games</h3>
-    <div class="card-container">
-        <% games.forEach(game => {%>
-            <div class="card">
-                <h1 style="color: red;"><%= game.name %></h1>
-                <% if (game.image !=="" ){%>
-                    <img src="<%= game.image %>" height="400" style="border-radius: 20px;">
-                <%} %>
-                <p style="bottom: 52px;">you've played <%= game.completion ? game.completion : 'N/A'%>% of the game</p>
-                <p>Game price: <%= game.price ? game.price : 'N/A' %>, play date: <%= game.playDate ? game.playDate : 'N/A'%></p>
+    
+    <div class="profile-header">
+        <h1><%= user.username %>'s Game Collection</h1>
+        <div class="total-spent">
+            <div class="total-spent-label">Total Money Spent</div>
+            <div class="total-spent-amount">
+                <span class="currency">BHD</span> <%= totalMoneySpent.toFixed(3) %>
             </div>
-        <%}); %>
+        </div>
+    </div>
+
+    <div class="games-grid">
+        <% if (games.length > 0) { %>
+            <% games.forEach(game => { %>
+                <div class="game-card">
+                    <div class="game-image-wrapper">
+                        <% if (game.image !== "") { %>
+                            <img src="<%= game.image %>" alt="<%= game.name %>" class="game-image">
+                        <% } else { %>
+                            <div class="no-image">🎮</div>
+                        <% } %>
+                    </div>
+                    
+                    <div class="game-info">
+                        <h2 class="game-title"><%= game.name %></h2>
+                        
+                        <div class="completion-bar-wrapper">
+                            <div class="completion-bar">
+                                <div class="completion-fill" style="width: <%= game.completion ? game.completion : 0 %>%">
+                                    <% if (game.completion && game.completion > 15) { %>
+                                        <%= game.completion %>%
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-stat">
+                            <span class="stat-label">Price</span>
+                            <span class="stat-value">BHD <%= game.price ? game.price.toFixed(2) : 'N/A' %></span>
+                        </div>
+                        
+                        <div class="game-stat">
+                            <span class="stat-label">Play Date</span>
+                            <span class="stat-value">
+                                <%= game.playDate ? new Date(game.playDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="no-games">
+                <p>This user hasn't added any games yet.</p>
+            </div>
+        <% } %>
     </div>
 </body>
 

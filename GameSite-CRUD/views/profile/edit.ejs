@@ -4,35 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Game - <%= game.name %></title>
+    <link rel="stylesheet" href="/stylesheets/editgameprofile.css">
 </head>
 
 <body>
-    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %>
-        <h1>Edit the game Data</h1>
+    
+    <div class="edit-container">
+        <h1>Edit Game Details</h1>
+        <p class="subtitle">Update information for <%= game.name %></p>
+
         <form action="/profile/<%= game._id %>?_method=PUT" method="POST">
-            <label for="name">Game name:</label>
-            <input type="text" name="name" id="name" required value="<%= game.name %>"/><br><br>
+            <div class="form-group">
+                <label for="name">Game Name</label>
+                <input type="text" name="name" id="name" required value="<%= game.name %>" placeholder="Enter game name"/>
+            </div>
+            <%console.log((new Date(game.playDate)).toLocaleDateString())%>
 
-            <label for="playDate">play Date:</label>
-            <input type="date" name="playDate" id="playDate" value="<%= game.playDate %>"/><br><br>
+            <div class="form-group">
+                <label for="playDate">Play Date</label>
+                <input type="date" name="playDate" id="playDate" value="<%=(new Date(game.playDate)).toISOString().split('T')[0] %>"/>
+            </div>
 
-            <label for="price">Game price:</label>
-            <input type="number" name="price" id="price" min="0" value="<%= game.price %>"/><br><br>
+            <div class="form-group">
+                <label for="price">Game Price ($)</label>
+                <input type="number" name="price" id="price" min="0" step="0.01" value="<%= game.price %>" placeholder="0.00"/>
+            </div>
 
-            <label for="completion">Game completion:</label>
-            <input type="number" name="completion" id="completion" min="0" max="100" value="<%= game.completion %>"/><br><br>
+            <div class="form-group">
+                <label for="completion">Completion Progress</label>
+                <input type="number" name="completion" id="completion" min="0" max="100" value="<%= game.completion %>" placeholder="0-100"/>
+            </div>
 
-            <label for="gameState">Game State:</label>
-            <select name="gameState" id="gameState">
-                <option value="Public"  <%= game.gameState === "Public" ? "selected" : ""%>  >Public</option>
-                <option value="Private" <%= game.gameState === "Private" ? "selected" : ""%> >Private</option>
-            </select>
-            <br><br>
+            <div class="form-group">
+                <label for="gameState">Visibility Status</label>
+                <select name="gameState" id="gameState">
+                    <option value="Public" <%= game.gameState === "Public" ? "selected" : "" %>>Public</option>
+                    <option value="Private" <%= game.gameState === "Private" ? "selected" : "" %>>Private</option>
+                </select>
+            </div>
 
-            <button type="submit">Edit the game details</button>
+            <button type="submit" class="btn-submit">Save Changes</button>
+            
+            <div class="back-link">
+                <a href="/profile/<%= game._id %>">← Cancel and go back</a>
+            </div>
         </form>
+    </div>
 
 </body>
 

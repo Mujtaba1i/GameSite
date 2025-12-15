@@ -5,31 +5,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit account settings</title>
+    <link rel="stylesheet" href="/stylesheets/profilesettings.css">
 </head>
 
 <body>
     <%- include('../partials/_hamburger.ejs') %>
-    <h1>Edit account settings!</h1>
-    <form action="/profile/settings?_method=PUT" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" value="<%= user.username %>"/>
-        <br><br>
+    
+    <div class="settings-container">
+        <h1>Account Settings</h1>
+        <p class="subtitle">Manage your profile and privacy settings</p>
 
-        <% if (!isSignedWithGoogle){%>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" />
-            <br><br>
-        <%} %>
+        <% if (isSignedWithGoogle) { %>
+            <div class="auth-notice">
+                <span class="auth-notice-icon">🔐</span>
+                <span class="auth-notice-text">You're signed in with Google. Password changes aren't required.</span>
+            </div>
+        <% } %>
 
-        <label for="accountState">Account State:</label>
-        <select name="accountState" id="accountState">
-            <option value="Public" <%= user.accountState === "Public" ? "selected" : ""%> >Public</option>
-            <option value="Private" <%= user.accountState === "Private" ? "selected" : ""%> >Private</option>
-        </select>
-        <br><br>
+        <form action="/profile/settings?_method=PUT" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" value="<%= user.username %>" placeholder="Enter your username"/>
+            </div>
 
-        <button type="submit">Update account</button>
-    </form>
+            <% if (!isSignedWithGoogle) { %>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="password"/>
+                </div>
+            <% } %>
+
+            <div class="form-group">
+                <label for="accountState">Account Visibility</label>
+                <select name="accountState" id="accountState">
+                    <option value="Public" <%= user.accountState === "Public" ? "selected" : "" %>>Public</option>
+                    <option value="Private" <%= user.accountState === "Private" ? "selected" : "" %>>Private</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Save Changes</button>
+            
+            <div class="back-link">
+                <a href="/profile">← Cancel and go back to profile</a>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

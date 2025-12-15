@@ -3,34 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>dd New Game</title>
+    <link rel="stylesheet" href="/stylesheets/newgame.css">
 </head>
 <body>
-    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %>
-    <h1>Add a new game!</h1>
-    <form action="/profile" method="POST">
-        <label for="name">Game name:</label>
-        <input type="text" name="name" id="name" required /><br><br>
     
-        <label for="playDate">play Date:</label>
-        <input type="date" name="playDate" id="playDate" /><br><br>
+        <div class="create-container">
+            <h1>Add a New Game!</h1>
+            <p class="subtitle">Fill in the details of your game</p>
     
-        <label for="price">Game price:</label>
-        <input type="number" name="price" id="price" min="0" /><br><br>
-        
-        <label for="completion">Game completion:</label>
-        <input type="number" name="completion" id="completion" min="0" max="100" /><br><br>
-        
-        <label for="gameState">Game State:</label>
-        <select name="gameState" id="gameState">
-            <option value="Public">Public</option>
-            <option value="Private">Private</option>
-        </select>
-        <br><br>
-
-        <button type="submit">Add game</button>
-    </form>
-
+            <form action="/profile" method="POST">
+                <div class="form-group">
+                    <label for="name">Game Name *</label>
+                    <input type="text" name="name" id="name" required placeholder="Enter the game title" />
+                </div>
+    
+                <div class="form-group">
+                    <label for="playDate">Play Date</label>
+                    <input type="date" name="playDate" id="playDate" />
+                </div>
+    
+                <div class="form-group">
+                    <label for="price">Game Price (BHD)</label>
+                    <input type="number" name="price" id="price" min="0" step="0.01" placeholder="0.00" />
+                </div>
+    
+                <div class="form-group">
+                    <label for="completion">Game Completion (%)</label>
+                    <input type="number" name="completion" id="completion" min="0" max="100" placeholder="0-100" />
+                </div>
+    
+                <div class="form-group">
+                    <label for="gameState">Visibility Status</label>
+                    <select name="gameState" id="gameState">
+                        <option value="Public">Public</option>
+                        <option value="Private">Private</option>
+                    </select>
+                </div>
+    
+                <button type="submit" class="btn-submit">Add Game to Collection</button>
+    
+                <div class="back-link">
+                    <a href="/profile">← Cancel and go back to profile</a>
+                </div>
+            </form>
+        </div>
 </body>
 </html>
