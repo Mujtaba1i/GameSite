@@ -22,6 +22,7 @@ router.get('/', async(req,res)=>{
                     _id: user._id,
                     username: user.username,
                     accountState: user.accountState,
+                    image: user.image
                 }
                 userAccountsToDisplay.push(userCopy)
             } 
@@ -33,7 +34,8 @@ router.get('/', async(req,res)=>{
                     const userCopy = {
                         _id: user._id,
                         username: `Anonymous ${anonymousCounter}`,
-                        accountState: user.accountState
+                        accountState: user.accountState,
+                        image: user.image
                     }
                     userAccountsToDisplay.push(userCopy)
                     anonymousCounter++

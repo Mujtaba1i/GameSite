@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Browse Gamers</title>
+    <link rel="stylesheet" href="/stylesheets/gamersindex.css">
 </head>
 <body>
-    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %>
-    <h1>Browse All users Profiles</h1>
-    <% users.forEach(user => {%>
-        <div><a href="/gamers/<%= user._id %>"><%= user.username %></a></div>
-    <% }); %>
+    
+        <div class="page-header">
+            <h1>Browse All Gamers</h1>
+            <p>Click on any profile to view their details</p>
+        </div>
+    
+        <div class="users-grid">
+            <% users.forEach(user=> { %>
+                <a href="/gamers/<%= user._id %>" class="user-card">
+                    <img src="<%= user.image %>" alt="<%= user.username %>" class="user-avatar">
+                    <p class="user-name">
+                        <%= user.username %>
+                    </p>
+                </a>
+                <% }); %>
+        </div>
 </body>
 </html>
