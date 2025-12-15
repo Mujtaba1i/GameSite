@@ -4,21 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= game.name %> - Details</title>
+    <link rel="stylesheet" href="/stylesheets/gameprofile.css">
 </head>
 
 <body>
-    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %>
-        <h1><%= game.name %></h1>
-        <% if (game.image !=="" ){%>
-            <img src="<%= game.image %>">
-        <%} %>
-        <p>you've played <%= game.completion %>%  of the game</p>
-        <p>Game price: <%= game.price %>, play date: <%= game.playDate %></p>
-        <p>The Game State of <%= game.name %> is <%= game.gameState %></p>
-        <a href="/profile/<%= game._id %>/edit">EDIT</a>
-        <form action="/profile/<%= game._id %>?_method=DELETE" method="POST"><button>DELETE</button></form>
+    
+    <div class="game-container">
+        <div class="game-header">
+            <h1><%= game.name %></h1>
+        </div>
+
+        <% if (game.image !== "") { %>
+            <div class="game-image-container">
+                <img src="<%= game.image %>" alt="<%= game.name %>" class="game-image">
+            </div>
+        <% } %>
+
+        <div class="game-details">
+            <div class="detail-item">
+                <div class="detail-label">Completion Progress</div>
+                <div class="completion-bar-container">
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: <%= game.completion %>%">
+                            <%= game.completion %>%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Game Price</div>
+                <div class="detail-value"><%if( game.price){%> <%= game.price %>BHD <%}else {%>N/A<%}%></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Play Date</div>
+                <div class="detail-value"><%if( game.playDate ){%> <%= new Date(game.playDate).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}).replace(/ /g,"/") %> <%}else{%>N/A<%}%></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Visibility Status</div>
+                <div class="detail-value">
+                    <span class="state-badge state-<%= game.gameState.toLowerCase() %>">
+                        <%= game.gameState %>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/profile/<%= game._id %>/edit" class="btn btn-edit">Edit Game</a>
+            <form action="/profile/<%= game._id %>?_method=DELETE" method="POST" class="delete-form">
+                <button type="submit" class="btn btn-delete">Delete Game</button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

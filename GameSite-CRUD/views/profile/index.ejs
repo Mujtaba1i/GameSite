@@ -4,19 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+</head> 
 <body>
-    <%#- include('../partials/_navbar.ejs') %>
     <%- include('../partials/_hamburger.ejs') %> 
-    <h1>Welcome <%= user.username %>!</h1>
-    <a href="/profile/new">Add a new game to your profile</a><br><br>
-    <% games.forEach(game => {%>
-        <li>
-            <% if (game.image !== ""){%>
-                <img src="<%= game.image %>" width="500" ><br>
-            <%} %>
-            <a href="/profile/<%= game._id %>"><%= game.name %></a>
-        </li>
-    <%}); %>
-</body>
+    
+    <div class="profile-header">
+        <h1>Welcome <%= user.username %>!</h1>
+        <a href="/profile/new" class="add-game-btn">Add New Game</a>
+    </div>
+
+    <% if (games.length > 0) { %>
+        <div class="games-grid">
+            <% games.forEach(game => { %>
+                <a href="/profile/<%= game._id %>" class="game-card">
+                    <% if (game.image !== "") { %>
+                        <img src="<%= game.image %>" alt="<%= game.name %>" class="game-image">
+                    <% } %>
+                    <div class="game-info">
+                        <h3 class="game-name"><%= game.name %></h3>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-games">No games yet. Add your first game to get started!</p>
+    <% } %>
 </html>

@@ -116,7 +116,7 @@ router.put('/:id', async(req,res)=>{
             req.body.image = await getCover(req.body.name)
         }
         const updatedGame = await Games.findByIdAndUpdate(req.params.id, req.body)
-        res.redirect('/profile')        
+        res.redirect('/profile/'+updatedGame._id)        
     } catch (err) {
         console.error('Ran into and error: '+err)
         res.redirect('/profile')
