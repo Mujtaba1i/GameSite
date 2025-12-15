@@ -108,18 +108,20 @@ router.post('/sign-up', async(req,res)=>{
     // username is not taken
     const userInDatabase = await User.findOne({ username })
     if (userInDatabase){
-        return res.send('Username or password is invalid')
+        req.session.errorMessage = 'Username or password is invalid'
+        return res.redirect('/') 
     }
 
     // validate the posswords match
     if (password !== confirmPassword){
-        return res.send('Username or password is invalid')
+        req.session.errorMessage = 'Username or password is invalid'
+        return res.redirect('/') 
     }
 
     // use the validator to check if the password if strong or not
     if (!validator.isStrongPassword(password, { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 0 })){
-        console.log(password)
-        return res.send('Password is not strong enough')
+        req.session.errorMessage = 'Username or password is invalid'
+        return res.redirect('/') 
     }
 
     // encrypt the password 
@@ -151,7 +153,7 @@ router.post('/sign-up', async(req,res)=>{
     })
 })
 
-router.post('/sign-in', async(req,res)=>{
+router.post('/', async(req,res)=>{
     const {username, password} = req.body
 
     // try to find the username in DB is not exist redirect to the signup
@@ -159,16 +161,21 @@ router.post('/sign-in', async(req,res)=>{
 
     // if exist compare the password 
     if (!userInDatabase){
-        return res.send('Username or password is invalid')
+        req.session.errorMessage = 'Username or password is invalid'
+        return res.redirect('/') 
     }
     
     const validPassword  = bcrypt.compareSync(password, userInDatabase.password)
     
     if (!validPassword){
         // if doesnt match throw an error
-        return res.send('Username or password is invalid')
+                console.log('password wrong')
+
+        req.session.errorMessage = 'Username or password is invalid'
+        return res.redirect('/') 
     }
-    else{
+    
+    else {
         // else continue with the login 
         req.session.user = {
             username: userInDatabase.username,

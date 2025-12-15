@@ -3,7 +3,7 @@ const isSignedIn = (req,res,next) =>{
       return next()   
     }
     else {
-        res.redirect('/auth/sign-in')
+        res.redirect('/')
     }
 }
 

@@ -11,7 +11,9 @@
 <body>
     <div class="container">
         <h1>Welcome to GameSite</h1>
-    
+        <% if (errorMessage){%>
+            <h4 style="color: red;"> <%= errorMessage %> </h4>
+        <%}%>
         <div class="auth-buttons" id="authButtons">
             <button class="btn btn-signup" onclick="toggleForm('signup')">
                 Create Account
@@ -69,7 +71,7 @@
         </div>
     
         <div class="form-container" id="signinForm">
-            <form action="/auth/sign-in" method="POST">
+            <form action="/auth" method="POST">
                 <div class="form-group">
                     <label for="signin-username">Username</label>
                     <input type="text" id="signin-username" name="username" required>

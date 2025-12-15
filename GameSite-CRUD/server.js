@@ -58,7 +58,9 @@ app.get("/", async (req, res) => {
     if (req.session.user){
         return res.redirect('/gamers')
     }
-    res.render('index.ejs')
+    errorMessage = req.session.errorMessage ? req.session.errorMessage : null
+
+    res.render('index.ejs', {errorMessage})
 })
 
 // auth Routes
@@ -70,8 +72,6 @@ app.use(isSignedIn)
 
 app.use('/gamers', gamersCtrl)
 app.use('/profile', profileCtrl)
-
-
 
 
 
