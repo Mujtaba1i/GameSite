@@ -11,7 +11,8 @@ A community CRUD web app for tracking and sharing video game collections and pla
 - CRUD operations for games and user profiles
 - Integration with RAWG API for game images
 - Public and private profiles
-- dicebear API-free for the avatar
+- Used dicebear API-free for the avatars
+- Account delete feature
 
 ## Technologies Used
 
@@ -32,6 +33,7 @@ A community CRUD web app for tracking and sharing video game collections and pla
 - Mr. Omar
 - Denis
 - Salman
+- Zainab
 
 ## Next Steps / Stretch Goals
 
