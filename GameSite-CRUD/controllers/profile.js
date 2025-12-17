@@ -11,17 +11,21 @@ const getGameCover = require("../services/game-images-service.js")
 
 async function getCover(gameName) {
     const gameImageUrl = await getGameCover(gameName)
-    console.log('Cover Image URL: '+ gameImageUrl)
     return gameImageUrl
 }
 
 // GET ============================================================================================
 
 router.get('/', async(req,res)=>{
-    // find all the games that the logged in user "OWNE"
-    const games = await Games.find({owner: req.session.user._id}).populate('owner')
-    const user = await Users.findById(req.session.user._id)
-    res.render('profile/index.ejs', { games, user })
+    try {
+        req.session.errorMessage = null
+        const games = await Games.find({owner: req.session.user._id}).populate('owner')
+        const user = await Users.findById(req.session.user._id)
+        res.render('profile/index.ejs', { games, user })
+    } catch (err) {
+        console.error('Ran into and error: '+err)
+        res.redirect('/profile')
+    }
 })
 
 router.get('/new', async(req,res)=>{
@@ -31,7 +35,7 @@ router.get('/new', async(req,res)=>{
 router.get('/settings', async(req,res)=>{
     try {
         const user = await Users.findById(req.session.user._id)
-        res.render('profile/settings.ejs', { user, isSignedWithGoogle: req.session.user.isSignedWithGoogle})
+        res.render('profile/settings.ejs', { user, isSignedWithGoogle: req.session.user.isSignedWithGoogle, errorMessage: req.session.errorMessage})
     } catch (err) {
         console.error('Ran into and error: '+err)
         res.redirect('/profile')
@@ -41,7 +45,6 @@ router.get('/settings', async(req,res)=>{
 router.get('/:id', async(req,res)=>{
     try{
     const game = await Games.findById(req.params.id).populate('owner')
-    // console.log(game)
     res.render('profile/show.ejs', { game })
 
     }
@@ -52,9 +55,14 @@ router.get('/:id', async(req,res)=>{
 })
 
 router.get('/:id/edit',async(req,res)=>{
-    const game = await Games.findById(req.params.id)
-    res.render('profile/edit.ejs', { game })
-
+    try {
+        const game = await Games.findById(req.params.id)
+        res.render('profile/edit.ejs', { game })
+    }
+    catch(err){
+        console.error('Ran into and error: '+err)
+        res.redirect('/profile')
+    }
 })
 
 // POST ===========================================================================================
@@ -89,7 +97,10 @@ router.put('/settings', async(req,res)=>{
                 }
                 res.redirect('/profile')
             }
-            else res.send('Password is incorrect')
+            else {
+                req.session.errorMessage = 'Password is incorrect'
+                res.redirect('/profile/settings')
+            }
     }
     else{
         const updatedUser = await Users.findByIdAndUpdate(req.session.user._id, req.body, {new: true})

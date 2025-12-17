@@ -9,7 +9,7 @@ const Games = require('../models/game')
 
 router.get('/', async(req,res)=>{
     try{
-        
+        req.session.errorMessage = null
         let userAccountsToDisplay = []
         let anonymousCounter = 1
         // finds all users

@@ -14,11 +14,9 @@
     <div class="settings-container">
         <h1>Account Settings</h1>
         <p class="subtitle">Manage your profile and privacy settings</p>
-
-        <% if (isSignedWithGoogle) { %>
-            <div class="auth-notice">
-                <span class="auth-notice-icon">🔐</span>
-                <span class="auth-notice-text">You're signed in with Google. Password changes aren't required.</span>
+        <% if (errorMessage) { %>
+            <div class="error-message">
+                <h3 style="color: red;"><%= errorMessage %></h3>
             </div>
         <% } %>
 
