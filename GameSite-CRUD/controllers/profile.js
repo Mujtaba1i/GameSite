@@ -136,6 +136,40 @@ router.put('/:id', async(req,res)=>{
 
 // DELETE ========================================================================================
 
+router.delete('/settings', async(req,res)=>{
+    try {
+        if (req.session.user.isSignedWithGoogle){
+            await Games.deleteMany({ owner: req.session.user._id })
+            await Users.findByIdAndDelete(req.session.user._id)
+            req.session.destroy()
+            res.redirect('/')
+        }
+        else{
+            const user = await Users.findById(req.session.user._id)
+            
+            if (!req.body.password || !user.password) {
+                req.session.errorMessage = 'Password is required'
+                res.redirect('/profile/settings')
+                return
+            }
+            
+            if (bcrypt.compareSync(req.body.password, user.password)){
+                await Games.deleteMany({ owner: req.session.user._id })
+                await Users.findByIdAndDelete(req.session.user._id)
+                req.session.destroy()
+                res.redirect('/')
+            }
+            else {
+                req.session.errorMessage = 'Password is incorrect'
+                res.redirect('/profile/settings')
+            }
+        }
+    } catch (err) {
+        console.error('Ran into and error: '+err)
+        res.redirect('/profile')
+    }
+})
+
 router.delete('/:id', async(req,res)=>{
     try {
         await Games.findByIdAndDelete(req.params.id)
@@ -145,6 +179,7 @@ router.delete('/:id', async(req,res)=>{
         res.redirect('/profile')
     }
 })
+
 
 // exports ========================================================================================
 

@@ -29,7 +29,7 @@
             <% if (!isSignedWithGoogle) { %>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="password"/>
+                    <input type="password" name="password" id="password" placeholder="Enter your password"/>
                 </div>
             <% } %>
 
@@ -42,12 +42,21 @@
             </div>
 
             <button type="submit" class="btn-submit">Save Changes</button>
-            
-            <div class="back-link">
-                <a href="/profile">← Cancel and go back to profile</a>
-            </div>
         </form>
+        <br>
+        <form action="/profile/settings?_method=DELETE" method="POST">
+            <% if (!isSignedWithGoogle) { %>
+                <div class="form-group">
+                    <label for="delete-password">Password</label>
+                    <input type="password" name="password" id="delete-password" placeholder="Enter your password"/>
+                </div>
+            <% } %>
+            <button type="submit" class="btn-delete">Delete Account</button>
+        </form>
+            
+        <div class="back-link">
+            <a href="/profile">← Cancel and go back to profile</a>
+        </div>
     </div>
-</body>
 
-</html>
+</body>
